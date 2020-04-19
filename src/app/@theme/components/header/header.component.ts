@@ -5,6 +5,7 @@ import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'ngx-header',
@@ -16,6 +17,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   userPictureOnly: boolean = false;
   user: any;
+
+  userName:string;
+  battleInit: number;
+  customers: any[];
+  companyName: string;
+  subscription: any;
 
   themes = [
     {
@@ -45,7 +52,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private themeService: NbThemeService,
               private userService: UserData,
               private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+              private breakpointService: NbMediaBreakpointsService,
+              private router: Router,) {
   }
 
   ngOnInit() {
@@ -69,6 +77,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+
+    this.menuService.onItemClick().subscribe(( event ) => {
+      this.onItemSelection(event.item.title);
+    });
+
+    this.user.name =localStorage.getItem('username');
+    this.companyName=localStorage.getItem("companyName");
   }
 
   ngOnDestroy() {
@@ -90,5 +105,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
   navigateHome() {
     this.menuService.navigateHome();
     return false;
+  }
+
+  onItemSelection( title ) {
+    if ( title === 'Log out' ) {
+      // Do something on Log out
+      console.log('Log out Clicked ');
+      localStorage.removeItem('token');
+      localStorage.removeItem('userid');
+      localStorage.removeItem('username');
+      this.router.navigate(['auth/login']);
+
+    } else if ( title === 'Attendance' ) {
+      // Do something on Profile
+      console.log('Profile Clicked ')
+      //this.openWindow1();
+    }
   }
 }

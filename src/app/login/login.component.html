@@ -1,0 +1,74 @@
+<h1 id="title" class="title">Login</h1>
+<p class="sub-title">Hello! Log in with your email.</p>
+
+<p *ngIf="demo" class="sub-title" style="color:red ;">Hello! You are using the DEMO file.</p>
+<p *ngIf="demo" class="sub-title" style="color:red ;">You will be automatically logged in shortly...</p>
+
+<nb-alert *ngIf="errors?.length" outline="danger" role="alert">
+  <p class="alert-title"><b>Oh snap!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let error of errors" class="alert-message">{{ error }}</li>
+  </ul>
+</nb-alert>
+
+<nb-alert *ngIf="messages?.length" outline="success" role="alert">
+  <p class="alert-title"><b>Hooray!</b></p>
+  <ul class="alert-message-list">
+    <li *ngFor="let message of messages" class="alert-message">{{ message }}</li>
+  </ul>
+</nb-alert>
+
+
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      formControlName="email"
+      id="email"
+      type="text"
+      class="form-control">
+    <div *ngIf="f.email.touched && f.email.invalid" class="alert alert-danger">
+      <div *ngIf="f.email.errors.required">Email is required.</div>
+      <div *ngIf="f.email.errors.email">Please, enter valid email address.</div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      formControlName="password"
+      id="password"
+      type="password"
+      class="form-control">
+    <div *ngIf="f.password.touched && f.password.invalid" class="alert alert-danger">
+      <div *ngIf="f.password.errors.required">Password is required.</div>
+      <div *ngIf="f.password.errors.minlength">Password should be 4 character.</div>
+    </div>
+  </div>
+
+
+  <button nbButton
+  fullWidth
+  status="success"
+  size="large"
+  [disabled]="!loginForm.valid || loading"
+  [class.btn-pulse]="submitted"
+          [class.spinner]="loading">
+  Log In
+  </button>
+  <p></p>
+
+  <button nbButton
+  fullWidth
+  status="warning"
+  (click)="onNavigate()"
+  >
+  Demo
+  </button>
+
+
+
+</form>
+
+

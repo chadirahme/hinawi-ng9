@@ -1,0 +1,8 @@
+https://medium.com/javascript-in-plain-english/dynamic-tab-based-application-using-angular-material-9f9da7de5732
+https://github.com/Deepak2985/dynamic-tab-angular
+
+
+
+
+ng build --prod
+

@@ -18,12 +18,31 @@ import {
   NbMenuModule,
   NbSidebarModule,
   NbToastrModule,
-  NbWindowModule,
+  NbWindowModule, NbButtonModule, NbInputModule, NbAlertModule, NbCheckboxModule,
 } from '@nebular/theme';
+import {AuthGuard} from "./auth-guard.service";
+import {WsTopic} from "./@core/services/ws.topic";
+import {ApiAuth} from "./@core/services/api.auth";
+import {LoginComponent} from "./login/login.component";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {CommonModule} from "@angular/common";
+import {NbAuthModule} from "@nebular/auth";
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent,LoginComponent],
   imports: [
+     CommonModule,
+
+    NbAlertModule,
+    NbInputModule,
+    NbButtonModule,
+    NbCheckboxModule,
+
+     NbAuthModule,
+
+     FormsModule,
+     ReactiveFormsModule,
+     ThemeModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -41,6 +60,8 @@ import {
     ThemeModule.forRoot(),
   ],
   bootstrap: [AppComponent],
+  providers: [ApiAuth,WsTopic,AuthGuard,
+  ],
 })
 export class AppModule {
 }
