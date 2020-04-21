@@ -1,6 +1,6 @@
 import {Injectable, EventEmitter, Output} from "@angular/core";
-// import {Stomp} from "@stomp/stompjs";
-// import * as SockJS from 'sockjs-client';
+ import {Stomp} from "@stomp/stompjs";
+ import * as SockJS from 'sockjs-client';
 import {MobileAttendance} from "../domains/webdashboard.model";
 @Injectable()
 export class WsTopic {
@@ -30,24 +30,25 @@ export class WsTopic {
     }
   }
 
+
   connect() {
-    // const socket = new SockJS(this.baseUrl);
-    // this.stompClient = Stomp.over(socket);
-    //
-    // const _this = this;
-    // this.stompClient.connect({}, function (frame) {
-    //   //_this.setConnected(true);
-    //   console.log('Connected: ' + frame);
-    //
-    //   _this.stompClient.subscribe('/topic/hi', function (hello) {
-    //     _this.showGreeting(JSON.parse(hello.body));
-    //   });
-    //   _this.stompClient.subscribe('/topic/attendanceResult', function (result) {
-    //     _this.showAttendanceResult(JSON.parse(result.body));
-    //   });
-    //
-    //
-    // });
+    const socket = new SockJS(this.baseUrl);
+    this.stompClient = Stomp.over(socket);
+
+    const _this = this;
+    this.stompClient.connect({}, function (frame) {
+      //_this.setConnected(true);
+      console.log('Connected: ' + frame);
+
+      _this.stompClient.subscribe('/topic/hi', function (hello) {
+        _this.showGreeting(JSON.parse(hello.body));
+      });
+      _this.stompClient.subscribe('/topic/attendanceResult', function (result) {
+        _this.showAttendanceResult(JSON.parse(result.body));
+      });
+
+
+    });
   }
 
   sendMessage(message) {

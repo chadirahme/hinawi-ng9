@@ -11,7 +11,7 @@ import {
   NbButtonModule,
   NbSelectModule,
   NbIconModule,
-  NbThemeModule,
+  NbThemeModule, NbCardModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { NbSecurityModule } from '@nebular/security';
@@ -38,6 +38,10 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import {ShowcaseDialogComponent} from "./dialog/showcase-dialog.component";
+import {SimpleNotificationsModule} from "angular2-notifications";
+
+const BASE_MODULES = [SimpleNotificationsModule];
 
 const NB_MODULES = [
   NbLayoutModule,
@@ -52,6 +56,7 @@ const NB_MODULES = [
   NbSelectModule,
   NbIconModule,
   NbEvaIconsModule,
+  NbCardModule
 ];
 const COMPONENTS = [
   HeaderComponent,
@@ -61,6 +66,7 @@ const COMPONENTS = [
   OneColumnLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  ShowcaseDialogComponent
 ];
 const PIPES = [
   CapitalizePipe,
@@ -71,8 +77,8 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...NB_MODULES],
-  exports: [CommonModule, ...PIPES, ...COMPONENTS],
+  imports: [BASE_MODULES,CommonModule, ...NB_MODULES],
+  exports: [BASE_MODULES,CommonModule, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
 })
 export class ThemeModule {

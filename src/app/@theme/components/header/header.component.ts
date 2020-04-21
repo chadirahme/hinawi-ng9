@@ -6,6 +6,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import {Router} from "@angular/router";
+import {WsTopic} from "../../../@core/services/ws.topic";
+import {NotificationsService} from "angular2-notifications";
 
 @Component({
   selector: 'ngx-header',
@@ -45,7 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  //userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
+  userMenu = [  { title: 'Log out' } ];
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
@@ -53,7 +56,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private userService: UserData,
               private layoutService: LayoutService,
               private breakpointService: NbMediaBreakpointsService,
-              private router: Router,) {
+              private router: Router,private wsTopic: WsTopic,private _notifications: NotificationsService) {
   }
 
   ngOnInit() {
@@ -84,11 +87,50 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.user.name =localStorage.getItem('username');
     this.companyName=localStorage.getItem("companyName");
+
+    if(this.subscription==null) {
+      this.subscription = this.wsTopic.attendanceResult.subscribe(msg => {
+        console.log("attendanceResult.subscribe");
+        this.notifyUser(msg);
+      });
+    }
   }
 
+  notifyUser(msg): void{
+    let content=localStorage.getItem('username') + " checkIn";
+    //this._notifications.create('User Attendance', 'content', 'success', options);
+    //msg="123" + "<br/>" + "456" + "<br/>" + "789" + "<br/>" + "101112..."
+    const toast = this._notifications.success('Attendance created!', msg );
+
+    //this._notificationService.generateNotification(data);
+
+    var audio = new Audio('assets/images/sms-alert.mp3');
+    audio.play();
+
+    this.subscription.unsubscribe();
+
+    // toast.click.subscribe((event) => {
+    //   //alert(event)
+    //   //reload my component
+    // });
+  }
+
+  options = {
+    position: ["bottom", "right"],
+    timeOut: 9000,
+    showProgressBar: true,
+    pauseOnHover: true,
+    clickToClose: true,
+    animate: 'scale'
+  };
+
   ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe()
+    }
     this.destroy$.next();
     this.destroy$.complete();
+
   }
 
   changeTheme(themeName: string) {

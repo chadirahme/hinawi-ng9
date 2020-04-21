@@ -1,0 +1,106 @@
+<nb-card class="example-card">
+  <nb-card-header>
+    <div>My Attendance - Last Activity</div>
+    <div style="color: green;" innerHTML="{{lastActivity}}"></div>
+  </nb-card-header>
+  <nb-card-body>
+    <div class="row">
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="inputStatus">Visit to</label>
+          <select class="form-control" id="inputStatus" #t (change)="callType(t.value)" [(ngModel)]="type">
+            <option >Customer</option>
+            <option >Prospective</option>
+            <option >Vendor</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="ddlCustomer">{{type}}</label>
+          <div class="ng-autocomplete">
+            <ng-autocomplete
+                             id="ddlCustomer" [(ngModel)]="selectedCustomerName"  [data]="customersList" [searchKeyword]="keyword" (selected)='selectEvent($event)'
+                             (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)' [itemTemplate]="itemTemplate"
+                             [notFoundTemplate]="notFoundTemplate">
+            </ng-autocomplete>
+
+            <ng-template #itemTemplate let-item>
+              <a [innerHTML]="item.name"></a>
+            </ng-template>
+
+            <ng-template #notFoundTemplate let-notFound>
+              <div [innerHTML]="notFound"></div>
+            </ng-template>
+          </div>
+
+          <!--<select class="form-control" [(ngModel)]="selectedCustomer" id="ddlCustomer" (change)="setSelectedStatus($event)">-->
+            <!--<option value="0">&#45;&#45;Select&#45;&#45;</option>-->
+            <!--<option *ngFor="let item of customersList" [ngValue]="item.name">-->
+              <!--{{item.name}}-->
+            <!--</option>-->
+          <!--</select>-->
+
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+        <span style="color: blue;" [innerHTML]="customerInfo"></span>
+      </div>
+
+      <div class="col-sm-6">
+        <span style="color: blue;"> Select the name where you are available or you want to work for at the time of filling the form </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="ddlSelectReason">Attendance Reason</label>
+          <select class="form-control" [(ngModel)]="selectedReason" id="ddlSelectReason" (change)="changeReason($event)">
+            <option value="0">--Select--</option>
+            <option *ngFor="let item of attendanceReasonList" [ngValue]="item.id">
+              {{item.description}}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label for="txtReason">Reason/Result</label>
+          <textarea shape="round" fullWidth [(ngModel)]="note" type="text" rows="5"
+                    class="form-control" id="txtReason" placeholder="Reason/Result"
+                    value="{{note}}"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="demo">
+      <div class="col-sm-12">
+        <div class="form-group">
+          <div #gmap style="width:100%;height:400px"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary" (click)="submit()">Check In</button>
+      &nbsp;
+      <button type="submit" *ngIf="!hadCheckOut" class="btn btn-primary" (click)="submitCheckOut()">Check Out</button>
+
+      <!--<simple-notifications [options]="options"></simple-notifications>-->
+
+    </div>
+  </nb-card-body>
+</nb-card>

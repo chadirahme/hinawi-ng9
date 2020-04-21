@@ -25,8 +25,12 @@ import {WsTopic} from "./@core/services/ws.topic";
 import {ApiAuth} from "./@core/services/api.auth";
 import {LoginComponent} from "./login/login.component";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {CommonModule} from "@angular/common";
+import {CommonModule, APP_BASE_HREF} from "@angular/common";
 import {NbAuthModule} from "@nebular/auth";
+import {BasicAuthHtppInterceptorService} from "./basic-auth-htpp-interceptor-service";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {AutocompleteLibModule} from "angular-ng-autocomplete";
+import {SimpleNotificationsModule} from "angular2-notifications";
 
 @NgModule({
   declarations: [AppComponent,LoginComponent],
@@ -42,6 +46,7 @@ import {NbAuthModule} from "@nebular/auth";
 
      FormsModule,
      ReactiveFormsModule,
+    AutocompleteLibModule,
      ThemeModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -58,9 +63,12 @@ import {NbAuthModule} from "@nebular/auth";
     }),
     CoreModule.forRoot(),
     ThemeModule.forRoot(),
+    SimpleNotificationsModule.forRoot() //add here and in pages.module
   ],
   bootstrap: [AppComponent],
   providers: [ApiAuth,WsTopic,AuthGuard,
+    { provide: APP_BASE_HREF, useValue: '/' },
+    {provide:HTTP_INTERCEPTORS, useClass:BasicAuthHtppInterceptorService, multi:true},
   ],
 })
 export class AppModule {
