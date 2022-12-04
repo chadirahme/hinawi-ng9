@@ -25,6 +25,9 @@ export class WsTopic {
     }
     else{
       this.baseUrl = 'http://hinawi2.dyndns.org:8091/ws/';
+      this.baseUrl = 'http://api.hinawierp.com/ws/';
+      this.baseUrl = 'https://hinawiapi.azurewebsites.net/ws';
+      this.baseUrl = 'http://localhost:8080/ws/';
       //this.baseUrl = 'https://test.hinawionline.com/ws/';
       //this.baseUrl = 'http://localhost:5000/ws/';
     }

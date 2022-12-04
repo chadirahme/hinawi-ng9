@@ -14,6 +14,7 @@ export class ApiAuth {
   demo: boolean =false;
    //baseUrl: string ='http://localhost:8091/api/';
    baseUrl: string = 'http://hinawi2.dyndns.org:8091/api/';
+   
   //baseUrl: string;
 
     constructor(private http: HttpClient) {
@@ -23,12 +24,17 @@ export class ApiAuth {
         //this.baseUrl = 'http://hinawi2.dyndns.org:8092/api/';
         //this.baseUrl = 'https://test.hinawionline.com/api/';
         this.baseUrl = 'https://hinawiapi.azurewebsites.net/api/';
+        this.baseUrl = 'http://hinawi2.dyndns.org:8092/api/';
       }
       else{
-        this.baseUrl = 'http://hinawi2.dyndns.org:8091/api/';
+       // this.baseUrl = 'http://hinawi2.dyndns.org:8091/api/';
         //this.baseUrl = 'https://test.hinawionline.com/api/';
         //this.baseUrl = 'http://localhost:5000/api/';
         //this.baseUrl = 'https://hinawiapi.azurewebsites.net/api/';
+        this.baseUrl = 'http://api.hinawierp.com/api/';
+        this.baseUrl = 'https://hinawiapi.azurewebsites.net/api/';
+        this.baseUrl = 'http://localhost:8080/api/';
+        this.baseUrl = 'http://hinawi2.dyndns.org:8092/api/';
       }
       //this.baseUrl = baseUrl;
     }
